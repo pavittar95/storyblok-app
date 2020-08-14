@@ -1,8 +1,18 @@
 import React from "react"
+import Page from "../UIComponents/Page"
+import ComponentNotFound from "../UIComponents/notFound"
+import { COMPONENT_TYPE } from "../constants/componentType"
 
-const Components = props => {
-  console.log("props--------------", props)
-  return <p>Home page hello</p>
+const ComponentList = {
+  [COMPONENT_TYPE.PAGE]: Page,
+}
+const Components = type => {
+  console.log(type);
+  if (typeof ComponentList[type] === "undefined") {
+    return ComponentNotFound
+  }
+
+  return ComponentList[type]
 }
 
 export default Components

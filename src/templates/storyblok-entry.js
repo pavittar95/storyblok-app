@@ -1,37 +1,40 @@
 import React from "react"
 import Components from "../components/components"
-import { graphql } from "gatsby"
 
-export default function StoryblokEntry({ data }) {
-  const story = data.storyblokEntry
-  console.log(story)
-  return (
-    <div>
-      {story.name}
-      <Components />
-      {/* {React.createElement(Components(content.component), {
-        key: content._uid,
-        blok: content,
-        ...content,
-      })} */}
-    </div>
-  )
-}
+class StoryBlokEntry extends React.Component {
+  static prepareStory(props) {
+    const story = Object.assign({}, props.pageContext.story)
+    story.content = JSON.parse(story.content)
 
-export const query = graphql`
-  query($slug: String!) {
-    storyblokEntry(slug: { eq: $slug }) {
-      id
-      name
-      created_at
-      uuid
-      slug
-      field_component
-      full_slug
-      content
-      is_startpage
-      parent_id
-      group_id
+    return {
+      story,
     }
   }
-`
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      ...StoryBlokEntry.prepareStory(props),
+    }
+  }
+
+  render() {
+    let content = {
+      ...this.state.story.content,
+      // Remove `header` from component list
+    }
+
+    return (
+      <div>
+        Home page is this
+        {React.createElement(Components(content.component), {
+          key: content._uid,
+          blok: content,
+          ...content,
+        })}
+      </div>
+    )
+  }
+}
+
+export default StoryBlokEntry

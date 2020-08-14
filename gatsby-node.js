@@ -38,21 +38,22 @@ exports.createPages = async ({ graphql, actions }) => {
 
   // creating pages using createPage function like described in the documentation
   // https://www.gatsbyjs.org/docs/programmatically-create-pages-from-data/#creating-pages
-  const edges = result.data.allStoryblokEntry.edges;
-  console.log(result.data);
+  const edges = result.data.allStoryblokEntry.edges
+  console.log(result.data)
 
-  console.log(result.data.allStoryblokEntry);
-  
+  console.log(result.data.allStoryblokEntry)
+
   edges.forEach(edge => {
     const full_slug = edge.node.full_slug
 
-    console.log('pages--------------',edge.node)
+    console.log("pages--------------", edge.node)
 
     actions.createPage({
       path: `/${full_slug}`,
       component: storyblokEntry,
       context: {
         slug: full_slug,
+        story: edge.node,
       },
     })
   })
